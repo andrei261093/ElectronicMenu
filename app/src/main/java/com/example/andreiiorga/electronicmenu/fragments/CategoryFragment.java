@@ -1,5 +1,6 @@
 package com.example.andreiiorga.electronicmenu.fragments;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -12,8 +13,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.andreiiorga.electronicmenu.Adapters.CategoryListViewAdapter;
+import com.example.andreiiorga.electronicmenu.ApplicationController;
 import com.example.andreiiorga.electronicmenu.R;
+import com.example.andreiiorga.electronicmenu.activities.OrderManager;
+import com.example.andreiiorga.electronicmenu.asyncTasks.CategoriesService;
+import com.example.andreiiorga.electronicmenu.listeners.OnScrollObserver;
 import com.example.andreiiorga.electronicmenu.models.Category;
+import com.example.andreiiorga.electronicmenu.models.Product;
+
+import java.util.List;
 
 /**
  * Created by andreiiorga on 21/06/2017.
@@ -22,8 +30,9 @@ import com.example.andreiiorga.electronicmenu.models.Category;
 public class CategoryFragment extends Fragment {
 
     View view;
-    ListView categoryList;
-    CategoryListViewAdapter categoryListViewAdapter;
+    private ListView categoryList;
+    private CategoryListViewAdapter categoryListViewAdapter;
+    private OrderManager orderManager;
 
 
     @Override
@@ -33,43 +42,69 @@ public class CategoryFragment extends Fragment {
 
         categoryList = (ListView) view.findViewById(R.id.category_list);
 
-        categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(getContext(), "click", Toast.LENGTH_LONG);
-                nextPage();
+
+                nextPage(i);
             }
         });
         categoryList.setItemsCanFocus(true);
-        showList();
+        categoryList.setOnScrollListener(new OnScrollObserver() {
+            @Override
+            public void onScrollUp() {
+                orderManager.setFloatButtonVisibility(true);
+            }
+
+            @Override
+            public void onScrollDown() {
+                orderManager.setFloatButtonVisibility(false);
+            }
+        });
+
+        categoryListViewAdapter = new CategoryListViewAdapter(getActivity(), R.layout.row_category);
+        categoryList.setAdapter(categoryListViewAdapter);
+
+        CategoriesService categoriesService = new CategoriesService();
+        categoriesService.setFragment(this);
+        categoriesService.execute();
+
 
         return view;
     }
 
-    public void showList(){
-        categoryListViewAdapter = new CategoryListViewAdapter(getActivity(), R.layout.row_category);
-        categoryList.setAdapter(categoryListViewAdapter);
-
-        Category fripturi = new Category(1, "Fripturi", "http://storage0.dms.mpinteractiv.ro/media/2/2/24986/10533179/14/miel-main.jpg?width=470");
-        Category pizza = new Category(2, "Pizza", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqFcPFlg8v_QdOcVryz1xp2cmwaWkwbd7MYegAP1zSQHeCMHYa");
-        Category ciorbe = new Category(3, "Supe", "http://ciorbesisupe.ro/wp-content/uploads/2016/03/Ciorba-de-perisoare.jpg");
-        Category desert = new Category(4, "Desert", "https://www.retetecalamama.ro/wp-content/uploads/2012/02/papanasi+cu+dulceata+si+smantana.jpg");
-        Category bauturi = new Category(5, "Racoritoare", "http://adevarul.ro/assets/adevarul.ro/MRImage/2015/10/28/5630bf98f5eaafab2c1bd096/646x404.jpg");
-        Category vinuri = new Category(6, "Vinuri", "http://marca-ro.ca/wp-content/uploads/2015/09/poza-vinuri.jpg");
-
-        categoryListViewAdapter.add(fripturi);
-        categoryListViewAdapter.add(pizza);
-        categoryListViewAdapter.add(ciorbe);
-        categoryListViewAdapter.add(desert);
-        categoryListViewAdapter.add(bauturi);
-        categoryListViewAdapter.add(vinuri);
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OrderManager) {
+            orderManager = (OrderManager) context;
+        }
     }
 
-    public void nextPage(){
+    public void setCategoryList(List<Category> categoryList) {
+        categoryListViewAdapter.clear();
+        for (Category category: categoryList){
+                categoryListViewAdapter.add(category);
+        }
+        categoryListViewAdapter.notifyDataSetChanged();
+    }
+
+
+
+    public void nextPage(int listIndex) {
         FragmentTransaction transaction = getFragmentManager()
                 .beginTransaction();
-        transaction.replace(R.id.root_frame, new ProductFragment());
+        transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+
+        Bundle args = new Bundle();
+        Category category =  (Category) categoryList.getItemAtPosition(listIndex);
+        args.putString("id", category.getId() + "");
+
+        ProductFragment productFragment = new ProductFragment();
+        productFragment.setArguments(args);
+
+        transaction.replace(R.id.root_frame, productFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

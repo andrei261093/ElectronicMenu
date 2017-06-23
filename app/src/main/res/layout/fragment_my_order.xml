@@ -1,16 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/section_label"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="300dp"
-        android:textSize="40dp"
-        android:text="My Order"/>
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/my_order_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        </ListView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_weight="3.5">
+
+        <TextView
+            android:id="@+id/label_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Total price:"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="20 Ron"
+            android:layout_alignParentEnd="true"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Send Order"
+                android:layout_below="@+id/label_price"
+                android:layout_marginBottom="?attr/actionBarSize"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1"
+                android:id="@+id/send_order"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Check"
+                android:layout_below="@+id/label_price"
+                android:layout_marginBottom="?attr/actionBarSize"
+                android:layout_alignParentLeft="true"
+                android:layout_weight="1"
+                />
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+
 
 </LinearLayout>

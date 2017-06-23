@@ -68,7 +68,6 @@ public class CategoryListViewAdapter extends ArrayAdapter<Category> {
 
         final Category category = (Category) this.getItem(position);
         categoryHolder.tx_name.setText(category.getName());
-        categoryHolder.img.setImageBitmap(category.getImage());
         Picasso.with(getContext())
                 .load(category.getImageUrl())
                 .into(categoryHolder.img);

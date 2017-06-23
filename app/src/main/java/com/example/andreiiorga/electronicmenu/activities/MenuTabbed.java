@@ -1,5 +1,6 @@
 package com.example.andreiiorga.electronicmenu.activities;
 
+import android.app.Application;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -20,12 +21,14 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.example.andreiiorga.electronicmenu.ApplicationController;
 import com.example.andreiiorga.electronicmenu.R;
 import com.example.andreiiorga.electronicmenu.fragments.CategoryFragment;
 import com.example.andreiiorga.electronicmenu.fragments.MyOrderFragment;
 import com.example.andreiiorga.electronicmenu.fragments.RootFragment;
+import com.example.andreiiorga.electronicmenu.models.Product;
 
-public class MenuTabbed extends AppCompatActivity {
+public class MenuTabbed extends AppCompatActivity implements OrderManager {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -45,10 +48,14 @@ public class MenuTabbed extends AppCompatActivity {
     private RootFragment rootFragment;
     private MyOrderFragment myOrderFragment;
 
+    private FloatingActionButton fab;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_tabbed);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -63,17 +70,40 @@ public class MenuTabbed extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Chelner-ul a fost chemat", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
 
-//        Intent intent = new Intent(this, LoginActivity.class);
-//        startActivity(intent);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 1){
+                    fab.hide();
+                }else{
+                    fab.show();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+
+        });
+
+        /*Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);*/
 
     }
 
@@ -98,6 +128,22 @@ public class MenuTabbed extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void addProductToOrder(Product product) {
+        ApplicationController.instance.add(product);
+        myOrderFragment.addProduct(product);
+
+    }
+
+    @Override
+    public void setFloatButtonVisibility(Boolean state) {
+        if(state){
+            fab.show();
+        }else{
+            fab.hide();
+        }
     }
 
     /**
@@ -159,5 +205,13 @@ public class MenuTabbed extends AppCompatActivity {
         } else {
             mViewPager.setCurrentItem(0);
         }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(data != null){
+            Product product = (Product) data.getExtras().getParcelable("result");
+            addProductToOrder(product);
+        }
+
     }
 }
