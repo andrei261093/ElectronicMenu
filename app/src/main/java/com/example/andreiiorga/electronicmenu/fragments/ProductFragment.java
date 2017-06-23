@@ -49,8 +49,6 @@ public class ProductFragment extends Fragment {
         productList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getContext(), "click", Toast.LENGTH_LONG);
-
                 nextPage(i);
             }
         });

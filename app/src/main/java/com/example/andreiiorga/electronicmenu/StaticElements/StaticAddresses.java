@@ -5,7 +5,7 @@ package com.example.andreiiorga.electronicmenu.StaticElements;
  */
 
 public class StaticAddresses {
-    public static String SERVER_URL = "http://192.168.1.101:1234";
+    public static String SERVER_URL = "http://192.168.5.232:1234";
     public static String GET_TABLE_BY_NAME = "/getTable/";
     public static String GET_CATEGORIES = "/getCategories";
     public static String GET_PRODUCTS = "/getProducts";

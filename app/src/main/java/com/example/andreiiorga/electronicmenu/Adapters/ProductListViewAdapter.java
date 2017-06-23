@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.andreiiorga.electronicmenu.ApplicationController;
 import com.example.andreiiorga.electronicmenu.R;
@@ -91,9 +92,10 @@ public class ProductListViewAdapter  extends ArrayAdapter<Product> {
 
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, product.getName() + " a fost adaugat", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                orderManager.addProductToOrder(product);
+                Toast.makeText(getContext(), product.getName() + " a fost adaugat", Toast.LENGTH_LONG).show();
+
+                Product clone = new Product(product);
+                orderManager.addProductToOrder(clone);
             }
         });
 

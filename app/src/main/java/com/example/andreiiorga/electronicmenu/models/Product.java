@@ -3,11 +3,13 @@ package com.example.andreiiorga.electronicmenu.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 /**
  * Created by andreiiorga on 21/06/2017.
  */
 
-public class Product implements Parcelable {
+public class Product implements Parcelable{
     private int id;
     private String name;
     private String imageUrl;
@@ -16,13 +18,24 @@ public class Product implements Parcelable {
     private int weight;
     private String shortDescription;
     private String longDescription;
-    public Boolean hasBeenSent= false;
+
 
 
     public Product(int id, String name, String imageUrl) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
+    }
+
+    public Product(Product product) {
+        this.id = product.getId();
+        this.name = product.getName();
+        this.imageUrl = product.getImageUrl();
+        this.price = product.getPrice();
+        this.categoryId = product.getCategoryId();
+        this.weight = product.getWeight();
+        this.shortDescription = product.getShortDescription();
+        this.longDescription = product.getLongDescription();
     }
 
     public String getName() {
@@ -81,6 +94,13 @@ public class Product implements Parcelable {
         this.longDescription = longDescription;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
 
     @Override

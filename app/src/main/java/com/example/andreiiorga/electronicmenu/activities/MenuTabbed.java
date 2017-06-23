@@ -1,29 +1,25 @@
 package com.example.andreiiorga.electronicmenu.activities;
 
-import android.app.Application;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.design.widget.TabLayout;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.andreiiorga.electronicmenu.ApplicationController;
 import com.example.andreiiorga.electronicmenu.R;
-import com.example.andreiiorga.electronicmenu.fragments.CategoryFragment;
 import com.example.andreiiorga.electronicmenu.fragments.MyOrderFragment;
 import com.example.andreiiorga.electronicmenu.fragments.RootFragment;
 import com.example.andreiiorga.electronicmenu.models.Product;
@@ -74,8 +70,26 @@ public class MenuTabbed extends AppCompatActivity implements OrderManager {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Chelner-ul a fost chemat", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(MenuTabbed.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+                } else {
+                    builder = new AlertDialog.Builder(getApplicationContext());
+                }
+                builder.setTitle("Cheama un ospatar")
+                        .setMessage("Esti sigur ca vrei sa chemi un ospatar?")
+                        .setPositiveButton("Sunt sigur", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getBaseContext(), "Ajungem imediat la Dvs.", Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .setNegativeButton("Anuleaza", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
         });
 
@@ -104,7 +118,8 @@ public class MenuTabbed extends AppCompatActivity implements OrderManager {
 
         /*Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);*/
-
+        Intent intent = new Intent(this, IntroActivity.class);
+        startActivity(intent);
     }
 
 

@@ -2,6 +2,7 @@ package com.example.andreiiorga.electronicmenu.asyncTasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -65,6 +66,13 @@ public class CategoriesService extends AsyncTask<Void, Void, String> {
 
         } catch (Exception e) {
             Log.e("ERROR", e.getMessage(), e);
+            Handler handler =  new Handler(ApplicationController.instance.getBaseContext().getMainLooper());
+            handler.post( new Runnable(){
+                public void run(){
+                    Toast.makeText(ApplicationController.instance.getApplicationContext(), "Nu s-a putut conecta la server", Toast.LENGTH_SHORT).show();
+                }
+            });
+
             return "Nu s-a putut comunica cu server-ul!";
         }
     }

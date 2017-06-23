@@ -1,8 +1,11 @@
 package com.example.andreiiorga.electronicmenu.fragments;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andreiiorga.electronicmenu.Adapters.MyOrderListAdapter;
-import com.example.andreiiorga.electronicmenu.Adapters.ProductListViewAdapter;
 import com.example.andreiiorga.electronicmenu.ApplicationController;
 import com.example.andreiiorga.electronicmenu.R;
-import com.example.andreiiorga.electronicmenu.activities.MenuTabbed;
+import com.example.andreiiorga.electronicmenu.activities.IntroActivity;
 import com.example.andreiiorga.electronicmenu.models.Product;
 
 import java.util.List;
@@ -39,7 +41,6 @@ public class MyOrderFragment extends Fragment {
         myOrderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getContext(), "click", Toast.LENGTH_LONG);
                 nextPage();
             }
         });
@@ -49,16 +50,68 @@ public class MyOrderFragment extends Fragment {
         myOrderList.setAdapter(myOrderListAdapter);
 
         Button sendOrder = (Button) rootView.findViewById(R.id.send_order);
+        Button checkButton = (Button) rootView.findViewById(R.id.check_button);
 
         sendOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for (int i = 0; i < myOrderListAdapter.getCount(); i++) {
-                    myOrderListAdapter.getButtonsStates()[i] = true;
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+                } else {
+                    builder = new AlertDialog.Builder(getContext());
                 }
-                myOrderListAdapter.notifyDataSetChanged();
+                builder.setTitle("Trimite Comanda")
+                        .setMessage("Esti sigur ca vrei sa trimiti comanda?")
+                        .setPositiveButton("Trimite", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                for (int i = 0; i < myOrderListAdapter.getCount(); i++) {
+                                    myOrderListAdapter.getButtonsStates()[i] = true;
+                                }
+                                myOrderListAdapter.notifyDataSetChanged();
+                                Toast.makeText(getContext(), "Comanda a fost trimisa la bucatarie", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("Anuleaza", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
 
+        });
+
+        checkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+                } else {
+                    builder = new AlertDialog.Builder(getContext());
+                }
+                builder.setTitle("Nota de plata")
+                        .setMessage("Esti sigur ca vrei sa inchizi nota? \n Total pret: " + price.getText())
+                        .setPositiveButton("Inchide Nota", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                myOrderListAdapter.clearData();
+                                myOrderListAdapter.notifyDataSetChanged();
+                                ApplicationController.instance.getMyOrderList().clear();
+                                updatePrice();
+                                Intent intent = new Intent(getContext(), IntroActivity.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("Anuleaza", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
         });
 
         return rootView;

@@ -1,7 +1,9 @@
 package com.example.andreiiorga.electronicmenu.asyncTasks;
 
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.andreiiorga.electronicmenu.ApplicationController;
 import com.example.andreiiorga.electronicmenu.StaticElements.StaticAddresses;
@@ -21,12 +23,11 @@ import java.net.URLConnection;
  * Created by andreiiorga on 22/06/2017.
  */
 
-public class ProductService  extends AsyncTask<Void, Void, String> {
+public class ProductService extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... voids) {
         // Do some validation here
-
         try {
             String json_string;
 
@@ -52,13 +53,20 @@ public class ProductService  extends AsyncTask<Void, Void, String> {
 
             json_string = stringBuilder.toString();
             System.out.print(json_string);
-            if(json_string.equals("null\n")){
+            if (json_string.equals("null\n")) {
                 return "";
             }
             return json_string;
 
         } catch (Exception e) {
             Log.e("ERROR", e.getMessage(), e);
+            Handler handler = new Handler(ApplicationController.instance.getBaseContext().getMainLooper());
+            handler.post(new Runnable() {
+                public void run() {
+                    Toast.makeText(ApplicationController.instance.getApplicationContext(), "Nu s-a putut conecta la server", Toast.LENGTH_SHORT).show();
+                }
+            });
+
             return "Nu s-a putut comunica cu server-ul!";
         }
     }
@@ -66,11 +74,11 @@ public class ProductService  extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         try {
-            if(result != null) {
+            if (result != null) {
                 JSONArray resultsArray = new JSONArray(result);
-                int a=0;
+                int a = 0;
 
-                for(int i=0; i< resultsArray.length(); i++){
+                for (int i = 0; i < resultsArray.length(); i++) {
                     Product product = new Product(Integer.parseInt(resultsArray.getJSONObject(i).getString("id")), resultsArray.getJSONObject(i).getString("name"), resultsArray.getJSONObject(i).getString("imageUrl"));
                     product.setShortDescription(resultsArray.getJSONObject(i).getString("shortDescription"));
                     product.setLongDescription(resultsArray.getJSONObject(i).getString("longDescription"));

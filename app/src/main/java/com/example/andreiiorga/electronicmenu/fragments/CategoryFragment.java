@@ -95,7 +95,7 @@ public class CategoryFragment extends Fragment {
     public void nextPage(int listIndex) {
         FragmentTransaction transaction = getFragmentManager()
                 .beginTransaction();
-        transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+        transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_out_left, R.anim.slide_in_right);
 
         Bundle args = new Bundle();
         Category category =  (Category) categoryList.getItemAtPosition(listIndex);

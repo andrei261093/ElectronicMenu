@@ -126,4 +126,8 @@ public class MyOrderListAdapter extends ArrayAdapter {
     public Boolean[] getButtonsStates() {
         return buttonsStates;
     }
+
+    public void clearData(){
+        list.clear();
+    }
 }

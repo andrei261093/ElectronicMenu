@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:text="20 Ron"
+            android:text="0 Ron"
             android:layout_alignParentEnd="true"
             android:paddingRight="20dp"
             android:paddingTop="5dp"
@@ -72,6 +72,7 @@
                 android:layout_marginBottom="?attr/actionBarSize"
                 android:layout_alignParentLeft="true"
                 android:layout_weight="1"
+                android:id="@+id/check_button"
                 />
         </LinearLayout>
 
