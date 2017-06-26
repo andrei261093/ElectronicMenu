@@ -20,6 +20,7 @@ public class ApplicationController extends Application {
     List<Category> categoryList;
     List<Product> productList;
     List<Product> myOrderList;
+    List<Product> chunkOrderList;
 
     public static ApplicationController instance;
 
@@ -30,6 +31,7 @@ public class ApplicationController extends Application {
         categoryList = new ArrayList<>();
         productList = new ArrayList<>();
         myOrderList = new ArrayList<>();
+        chunkOrderList = new ArrayList<>();
 
         ProductService productService = new ProductService();
         productService.execute();
@@ -76,4 +78,11 @@ public class ApplicationController extends Application {
         productList.add(product);
     }
 
+    public List<Product> getChunkOrderList() {
+        return chunkOrderList;
+    }
+
+    public void setChunkOrderList(List<Product> chunkOrderList) {
+        this.chunkOrderList = chunkOrderList;
+    }
 }

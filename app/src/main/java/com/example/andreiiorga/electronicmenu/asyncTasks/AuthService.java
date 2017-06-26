@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.andreiiorga.electronicmenu.StaticElements.StaticAddresses;
+import com.example.andreiiorga.electronicmenu.StaticElements.StaticStrings;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,7 +42,7 @@ public class AuthService extends AsyncTask<Void, Void, String> {
         try {
             String json_string;
 
-            String a = StaticAddresses.SERVER_URL + StaticAddresses.GET_TABLE_BY_NAME + tableNo;
+            String a = StaticStrings.SERVER_URL + StaticStrings.GET_TABLE_BY_NAME_ROUTE + tableNo;
             URLConnection connection = new URL(a).openConnection();
             connection.setRequestProperty("User-Agent",
                     "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
@@ -81,6 +81,7 @@ public class AuthService extends AsyncTask<Void, Void, String> {
             jsonObject = new JSONObject(s);
             if(loginSuccessful(jsonObject.getString("tableNo"), jsonObject.getString("tablePassword"))){
                 Toast.makeText(loginActivity, "Autentificare reusita!", Toast.LENGTH_LONG).show();
+                StaticStrings.TABLE_NO = jsonObject.getString("tableNo");
                 showMenu();
             }else {
                 Toast.makeText(loginActivity, "Autentificare esuata!", Toast.LENGTH_LONG).show();

@@ -24,15 +24,18 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile group: 'com.squareup.picasso', name: 'picasso', version: '2.3.2'
+    compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:design:26.+'
     compile 'com.android.support:support-vector-drawable:26.+'
     compile 'agency.tango.android:material-intro-screen:0.0.5'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+    compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.loopj.android:android-async-http:1.4.9'
 }

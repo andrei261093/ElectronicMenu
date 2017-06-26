@@ -1,20 +1,17 @@
 package com.example.andreiiorga.electronicmenu.asyncTasks;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.andreiiorga.electronicmenu.ApplicationController;
-import com.example.andreiiorga.electronicmenu.R;
-import com.example.andreiiorga.electronicmenu.StaticElements.StaticAddresses;
+import com.example.andreiiorga.electronicmenu.StaticElements.StaticStrings;
 import com.example.andreiiorga.electronicmenu.fragments.CategoryFragment;
 import com.example.andreiiorga.electronicmenu.models.Category;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -37,7 +34,7 @@ public class CategoriesService extends AsyncTask<Void, Void, String> {
         try {
             String json_string;
 
-            String a = StaticAddresses.SERVER_URL + StaticAddresses.GET_CATEGORIES;
+            String a = StaticStrings.SERVER_URL + StaticStrings.GET_CATEGORIES_ROUTE;
             //String a = "http://192.168.1.101:1234/getCategories";
             URLConnection connection = new URL(a).openConnection();
             connection.setRequestProperty("User-Agent",
@@ -83,7 +80,6 @@ public class CategoriesService extends AsyncTask<Void, Void, String> {
         try {
             if(result != null) {
                 JSONArray resultsArray = new JSONArray(result);
-                int a=0;
 
                 for(int i=0; i< resultsArray.length(); i++){
                     Category category = new Category(Integer.parseInt(resultsArray.getJSONObject(i).getString("id")), resultsArray.getJSONObject(i).getString("name"), resultsArray.getJSONObject(i).getString("imageUrl"));

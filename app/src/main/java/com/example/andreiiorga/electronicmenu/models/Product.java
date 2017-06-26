@@ -3,8 +3,6 @@ package com.example.andreiiorga.electronicmenu.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
 /**
  * Created by andreiiorga on 21/06/2017.
  */
@@ -18,6 +16,7 @@ public class Product implements Parcelable{
     private int weight;
     private String shortDescription;
     private String longDescription;
+    private Boolean needsPreparation;
 
 
 
@@ -36,6 +35,7 @@ public class Product implements Parcelable{
         this.weight = product.getWeight();
         this.shortDescription = product.getShortDescription();
         this.longDescription = product.getLongDescription();
+        this.needsPreparation = product.getNeedsPreparation();
     }
 
     public String getName() {
@@ -92,6 +92,14 @@ public class Product implements Parcelable{
 
     public void setLongDescription(String longDescription) {
         this.longDescription = longDescription;
+    }
+
+    public Boolean getNeedsPreparation() {
+        return needsPreparation;
+    }
+
+    public void setNeedsPreparation(Boolean needsPreparation) {
+        this.needsPreparation = needsPreparation;
     }
 
     public int getId() {

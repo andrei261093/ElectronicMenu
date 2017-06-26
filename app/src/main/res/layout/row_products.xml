@@ -60,6 +60,7 @@
             android:layout_centerInParent="true"
             android:id="@+id/add_product_btn"
             android:focusable="false"
+            android:theme="@style/lightButton"
             />
 
     </RelativeLayout>

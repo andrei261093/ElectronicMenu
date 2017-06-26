@@ -65,8 +65,8 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_menu_add"
-        app:backgroundTint="@color/colorAccent"
+        app:srcCompat="@drawable/thick_icon"
+        app:backgroundTint="#f2eded"
 
         />
 

@@ -6,8 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.andreiiorga.electronicmenu.ApplicationController;
-import com.example.andreiiorga.electronicmenu.StaticElements.StaticAddresses;
-import com.example.andreiiorga.electronicmenu.models.Category;
+import com.example.andreiiorga.electronicmenu.StaticElements.StaticStrings;
 import com.example.andreiiorga.electronicmenu.models.Product;
 
 import org.json.JSONArray;
@@ -31,7 +30,7 @@ public class ProductService extends AsyncTask<Void, Void, String> {
         try {
             String json_string;
 
-            String a = StaticAddresses.SERVER_URL + StaticAddresses.GET_PRODUCTS;
+            String a = StaticStrings.SERVER_URL + StaticStrings.GET_PRODUCTS_ROUTE;
             //String a = "http://192.168.1.101:1234/getCategories";
             URLConnection connection = new URL(a).openConnection();
             connection.setRequestProperty("User-Agent",
@@ -85,6 +84,7 @@ public class ProductService extends AsyncTask<Void, Void, String> {
                     product.setCategoryId(Integer.parseInt(resultsArray.getJSONObject(i).getString("category")));
                     product.setPrice(Integer.parseInt(resultsArray.getJSONObject(i).getString("price")));
                     product.setWeight(Integer.parseInt(resultsArray.getJSONObject(i).getString("weight")));
+                    product.setNeedsPreparation(resultsArray.getJSONObject(i).getBoolean("needsPreparation"));
                     ApplicationController.instance.addProduct(product);
                 }
             } else {

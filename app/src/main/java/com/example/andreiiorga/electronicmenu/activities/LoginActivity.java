@@ -1,6 +1,5 @@
 package com.example.andreiiorga.electronicmenu.activities;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -11,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.andreiiorga.electronicmenu.R;
-import com.example.andreiiorga.electronicmenu.StaticElements.StaticAddresses;
+import com.example.andreiiorga.electronicmenu.StaticElements.StaticStrings;
 import com.example.andreiiorga.electronicmenu.asyncTasks.AuthService;
 
 /**
@@ -42,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String tableNo = mEmailView.getText().toString();
                 String password = mPasswordView.getText().toString();
-                StaticAddresses.SERVER_URL = serverURL.getText().toString();
+                StaticStrings.SERVER_URL = serverURL.getText().toString();
 
                 login(tableNo, password);
 

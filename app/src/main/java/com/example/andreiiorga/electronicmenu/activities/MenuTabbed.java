@@ -72,7 +72,7 @@ public class MenuTabbed extends AppCompatActivity implements OrderManager {
             public void onClick(View view) {
                 AlertDialog.Builder builder;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    builder = new AlertDialog.Builder(MenuTabbed.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+                    builder = new AlertDialog.Builder(MenuTabbed.this, android.R.style.Theme_DeviceDefault_Dialog);
                 } else {
                     builder = new AlertDialog.Builder(getApplicationContext());
                 }
@@ -118,8 +118,11 @@ public class MenuTabbed extends AppCompatActivity implements OrderManager {
 
         /*Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);*/
-        Intent intent = new Intent(this, IntroActivity.class);
-        startActivity(intent);
+
+       // Intent intent = new Intent(this, IntroActivity.class);
+        //startActivity(intent);
+
+
     }
 
 
@@ -147,7 +150,8 @@ public class MenuTabbed extends AppCompatActivity implements OrderManager {
 
     @Override
     public void addProductToOrder(Product product) {
-        ApplicationController.instance.add(product);
+        //ApplicationController.instance.add(product);
+        ApplicationController.instance.getChunkOrderList().add(product);
         myOrderFragment.addProduct(product);
 
     }
@@ -199,9 +203,9 @@ public class MenuTabbed extends AppCompatActivity implements OrderManager {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Menu";
+                    return "Meniu";
                 case 1:
-                    return "My Order";
+                    return "Comanda mea";
 
             }
             return null;

@@ -45,6 +45,7 @@ public class ProductFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_products, container, false);
 
         productList = (ListView) view.findViewById(R.id.product_list);
+        productList.setEmptyView(view.findViewById(R.id.empty_list_image_view));
 
         productList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

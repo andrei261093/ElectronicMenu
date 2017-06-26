@@ -130,4 +130,8 @@ public class MyOrderListAdapter extends ArrayAdapter {
     public void clearData(){
         list.clear();
     }
+
+    public List<Product> getList() {
+        return list;
+    }
 }
