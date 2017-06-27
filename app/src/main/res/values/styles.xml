@@ -14,13 +14,13 @@
     </style>
 
     <style name="MyButton" parent="Theme.AppCompat.Light">
-        <item name="colorControlHighlight">#ef9a9a</item>
-        <item name="colorButtonNormal">#ef9a9a</item>
+        <item name="colorControlHighlight">#cfd8dc</item>
+        <item name="colorButtonNormal">#cfd8dc</item>
     </style>
 
     <style name="lightButton" parent="Theme.AppCompat.Light">
-        <item name="colorControlHighlight">#ffcccb</item>
-        <item name="colorButtonNormal">#ffcccb</item>
+        <item name="colorControlHighlight">#eeeeee</item>
+        <item name="colorButtonNormal">#eeeeee</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

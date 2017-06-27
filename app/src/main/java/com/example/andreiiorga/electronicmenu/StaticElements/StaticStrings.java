@@ -20,4 +20,5 @@ public class StaticStrings {
 
     //current table number
     public static String TABLE_NO = "1";
+    public static String TABLE_ZONE = "1";
 }

@@ -82,6 +82,7 @@ public class AuthService extends AsyncTask<Void, Void, String> {
             if(loginSuccessful(jsonObject.getString("tableNo"), jsonObject.getString("tablePassword"))){
                 Toast.makeText(loginActivity, "Autentificare reusita!", Toast.LENGTH_LONG).show();
                 StaticStrings.TABLE_NO = jsonObject.getString("tableNo");
+                StaticStrings.TABLE_ZONE = jsonObject.getString("tableZone");
                 showMenu();
             }else {
                 Toast.makeText(loginActivity, "Autentificare esuata!", Toast.LENGTH_LONG).show();

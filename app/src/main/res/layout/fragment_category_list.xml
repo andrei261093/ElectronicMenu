@@ -3,13 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+<android.support.v4.widget.SwipeRefreshLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="?attr/actionBarSize"
+    android:id="@+id/swipe_refresh_categories"
+    >
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/category_list"
-        android:layout_marginBottom="?attr/actionBarSize">
-
+        android:id="@+id/category_list">
     </ListView>
+
+</android.support.v4.widget.SwipeRefreshLayout>
+
 
 </LinearLayout>

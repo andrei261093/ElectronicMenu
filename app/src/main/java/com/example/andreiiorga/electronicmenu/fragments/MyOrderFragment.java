@@ -69,35 +69,40 @@ public class MyOrderFragment extends Fragment {
         sendOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
-                } else {
-                    builder = new AlertDialog.Builder(getContext());
-                }
-                builder.setTitle("Trimite Comanda")
-                        .setMessage("Esti sigur ca vrei sa trimiti comanda?")
-                        .setPositiveButton("Trimite", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                for (int i = 0; i < myOrderListAdapter.getCount(); i++) {
-                                    myOrderListAdapter.getButtonsStates()[i] = true;
+                if(ApplicationController.instance.getChunkOrderList().size() != 0){
+                    AlertDialog.Builder builder;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+                    } else {
+                        builder = new AlertDialog.Builder(getContext());
+                    }
+                    builder.setTitle("Trimite Comanda")
+                            .setMessage("Esti sigur ca vrei sa trimiti comanda?")
+                            .setPositiveButton("Trimite", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    for (int i = 0; i < myOrderListAdapter.getCount(); i++) {
+                                        myOrderListAdapter.getButtonsStates()[i] = true;
+                                    }
+                                    myOrderListAdapter.notifyDataSetChanged();
+                                    Toast.makeText(getContext(), "Comanda a fost trimisa la bucatarie", Toast.LENGTH_SHORT).show();
+
+                                    ApplicationController.instance.getMyOrderList().addAll(ApplicationController.instance.getChunkOrderList());
+                                    sendFullOrder(ApplicationController.instance.getChunkOrderList(), StaticStrings.NEW_ORDER_ROUTE, StaticStrings.ORDER_ACTION_ORDER);
+                                    ApplicationController.instance.getChunkOrderList().clear();
+
                                 }
-                                myOrderListAdapter.notifyDataSetChanged();
-                                Toast.makeText(getContext(), "Comanda a fost trimisa la bucatarie", Toast.LENGTH_SHORT).show();
+                            })
+                            .setNegativeButton("Anuleaza", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }else{
+                    Toast.makeText(getActivity(), "Nu aveti produse noi", Toast.LENGTH_SHORT).show();
+                }
 
-                                ApplicationController.instance.getMyOrderList().addAll(ApplicationController.instance.getChunkOrderList());
-                                sendFullOrder(ApplicationController.instance.getChunkOrderList(), StaticStrings.NEW_ORDER_ROUTE, StaticStrings.ORDER_ACTION_ORDER);
-                                ApplicationController.instance.getChunkOrderList().clear();
-
-                            }
-                        })
-                        .setNegativeButton("Anuleaza", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
             }
 
         });
@@ -105,36 +110,72 @@ public class MyOrderFragment extends Fragment {
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
-                } else {
-                    builder = new AlertDialog.Builder(getContext());
+                if(ApplicationController.instance.getChunkOrderList().size() != 0){
+                    AlertDialog.Builder builder;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+                    } else {
+                        builder = new AlertDialog.Builder(getContext());
+                    }
+                    builder.setTitle("Nota de plata")
+                            .setMessage("Aveti produse necomandate, renuntati la ele si continuati? \n Total pret: " + getTotalPrice())
+                            .setPositiveButton("Inchide Nota", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    sendFullOrder(ApplicationController.instance.getMyOrderList(), StaticStrings.CHECK_MY_ORDER_ROUTE, StaticStrings.ORDER_ACTION_CHECK);
+                                    myOrderListAdapter.clearData();
+                                    myOrderListAdapter.notifyDataSetChanged();
+                                    ApplicationController.instance.getMyOrderList().clear();
+                                    updatePrice();
+                                    Intent intent = getActivity().getIntent();
+                                    getActivity().finish();
+                                    startActivity(intent);
+
+                                    Intent intentIntro = new Intent(getContext(), IntroActivity.class);
+                                    startActivity(intentIntro);
+                                }
+                            })
+                            .setNegativeButton("Anuleaza", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }else if(ApplicationController.instance.getMyOrderList().size() != 0){
+                    AlertDialog.Builder builder;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        builder = new AlertDialog.Builder(getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+                    } else {
+                        builder = new AlertDialog.Builder(getContext());
+                    }
+                    builder.setTitle("Nota de plata")
+                            .setMessage("Esti sigur ca vrei sa inchizi nota? \nTotal pret: " + price.getText())
+                            .setPositiveButton("Inchide Nota", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    sendFullOrder(ApplicationController.instance.getMyOrderList(), StaticStrings.CHECK_MY_ORDER_ROUTE, StaticStrings.ORDER_ACTION_CHECK);
+                                    myOrderListAdapter.clearData();
+                                    myOrderListAdapter.notifyDataSetChanged();
+                                    ApplicationController.instance.getMyOrderList().clear();
+                                    updatePrice();
+                                    Intent intent = getActivity().getIntent();
+                                    getActivity().finish();
+                                    startActivity(intent);
+
+                                    Intent intentIntro = new Intent(getContext(), IntroActivity.class);
+                                    startActivity(intentIntro);
+                                }
+                            })
+                            .setNegativeButton("Anuleaza", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }else{
+                    Toast.makeText(getActivity(), "Nu aveti produse!", Toast.LENGTH_SHORT).show();
                 }
-                builder.setTitle("Nota de plata")
-                        .setMessage("Esti sigur ca vrei sa inchizi nota? \n Total pret: " + price.getText())
-                        .setPositiveButton("Inchide Nota", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                sendFullOrder(ApplicationController.instance.getMyOrderList(), StaticStrings.CHECK_MY_ORDER_ROUTE, StaticStrings.ORDER_ACTION_CHECK);
-                                myOrderListAdapter.clearData();
-                                myOrderListAdapter.notifyDataSetChanged();
-                                ApplicationController.instance.getMyOrderList().clear();
-                                updatePrice();
-                                Intent intent = getActivity().getIntent();
-                                getActivity().finish();
-                                startActivity(intent);
 
-                                Intent intentIntro = new Intent(getContext(), IntroActivity.class);
-                                startActivity(intentIntro);
-                            }
-                        })
-                        .setNegativeButton("Anuleaza", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
             }
         });
 
@@ -150,6 +191,7 @@ public class MyOrderFragment extends Fragment {
             JSONArray productsJson = new JSONArray(json);
             order.put("orderAction", action);
             order.put("tableNo", StaticStrings.TABLE_NO);
+            order.put("tableZone", StaticStrings.TABLE_ZONE);
             order.put("products", productsJson);
             if(action.equals(StaticStrings.ORDER_ACTION_ORDER)){
                 order.put("totalPrice", getChunkPrice());
