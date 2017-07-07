@@ -20,9 +20,20 @@ import android.widget.Toast;
 
 import com.example.andreiiorga.electronicmenu.ApplicationController;
 import com.example.andreiiorga.electronicmenu.R;
+import com.example.andreiiorga.electronicmenu.StaticElements.StaticStrings;
+import com.example.andreiiorga.electronicmenu.asyncTasks.AsynchronousHttpClient;
 import com.example.andreiiorga.electronicmenu.fragments.MyOrderFragment;
 import com.example.andreiiorga.electronicmenu.fragments.RootFragment;
+import com.example.andreiiorga.electronicmenu.models.Category;
 import com.example.andreiiorga.electronicmenu.models.Product;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 public class MenuTabbed extends AppCompatActivity implements OrderManager {
 
@@ -52,7 +63,6 @@ public class MenuTabbed extends AppCompatActivity implements OrderManager {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_tabbed);
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -81,6 +91,18 @@ public class MenuTabbed extends AppCompatActivity implements OrderManager {
                         .setPositiveButton("Sunt sigur", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(getBaseContext(), "Ajungem imediat la Dvs.", Toast.LENGTH_LONG).show();
+
+                                AsynchronousHttpClient.get(StaticStrings.CALL_WAITER_ROUTE + StaticStrings.TABLE_NO, null, new AsyncHttpResponseHandler(){
+                                    @Override
+                                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                                    }
+                                });
                             }
                         })
                         .setNegativeButton("Anuleaza", new DialogInterface.OnClickListener() {
@@ -122,7 +144,8 @@ public class MenuTabbed extends AppCompatActivity implements OrderManager {
        // Intent intent = new Intent(this, IntroActivity.class);
         //startActivity(intent);
 
-
+        Intent intentIntro = new Intent(this, IntroActivity.class);
+        startActivity(intentIntro);
     }
 
 

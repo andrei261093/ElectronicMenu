@@ -97,7 +97,9 @@ public class CategoryFragment extends Fragment {
                                 JSONArray resultsArray = timeline;
 
                                 for(int i=0; i< resultsArray.length(); i++){
-                                    Category category = new Category(Integer.parseInt(resultsArray.getJSONObject(i).getString("id")), resultsArray.getJSONObject(i).getString("name"), resultsArray.getJSONObject(i).getString("imageUrl"));
+                                    Category category = new Category(Integer.parseInt(resultsArray.getJSONObject(i).getString("id")),
+                                            resultsArray.getJSONObject(i).getString("name"),
+                                            resultsArray.getJSONObject(i).getString("imageUrl"));
                                     ApplicationController.instance.addCategory(category);
                                 }
                             } else {
@@ -142,7 +144,8 @@ public class CategoryFragment extends Fragment {
     public void nextPage(int listIndex) {
         FragmentTransaction transaction = getFragmentManager()
                 .beginTransaction();
-        transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_out_left, R.anim.slide_in_right);
+        transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right,
+                R.anim.slide_out_left, R.anim.slide_in_right);
 
         Bundle args = new Bundle();
         Category category = (Category) categoryList.getItemAtPosition(listIndex);

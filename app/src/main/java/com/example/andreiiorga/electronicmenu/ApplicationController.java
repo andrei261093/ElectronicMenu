@@ -33,8 +33,7 @@ public class ApplicationController extends Application {
         myOrderList = new ArrayList<>();
         chunkOrderList = new ArrayList<>();
 
-        ProductService productService = new ProductService();
-        productService.execute();
+
 
         seed();
     }

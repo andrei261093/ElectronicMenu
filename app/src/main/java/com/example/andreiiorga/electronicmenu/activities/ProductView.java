@@ -61,7 +61,6 @@ public class ProductView extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("result", product);
                 setResult(RESULT_OK,intent);
-                finish();
             }
         });
 

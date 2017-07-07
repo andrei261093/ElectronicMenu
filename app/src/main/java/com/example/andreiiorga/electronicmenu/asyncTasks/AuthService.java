@@ -1,11 +1,13 @@
 package com.example.andreiiorga.electronicmenu.asyncTasks;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.andreiiorga.electronicmenu.StaticElements.StaticStrings;
+import com.example.andreiiorga.electronicmenu.activities.MenuTabbed;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,7 +84,7 @@ public class AuthService extends AsyncTask<Void, Void, String> {
             if(loginSuccessful(jsonObject.getString("tableNo"), jsonObject.getString("tablePassword"))){
                 Toast.makeText(loginActivity, "Autentificare reusita!", Toast.LENGTH_LONG).show();
                 StaticStrings.TABLE_NO = jsonObject.getString("tableNo");
-                StaticStrings.TABLE_ZONE = jsonObject.getString("tableZone");
+                StaticStrings.TABLE_ZONE = jsonObject.getString("zone");
                 showMenu();
             }else {
                 Toast.makeText(loginActivity, "Autentificare esuata!", Toast.LENGTH_LONG).show();
@@ -107,9 +109,10 @@ public class AuthService extends AsyncTask<Void, Void, String> {
     }
 
     private void showMenu() {
-   /*     Intent intent = new Intent(loginActivity, ElectronicMenu.class);
+        Intent intent = new Intent(loginActivity, MenuTabbed.class);
         intent.addCategory(Intent.CATEGORY_HOME);
-        loginActivity.startActivity(intent);*/
+        loginActivity.startActivity(intent);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         loginActivity.finish();
     }
 

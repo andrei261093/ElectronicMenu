@@ -7,7 +7,7 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="server_url">Server url</string>
-    <string name="url">http://192.168.1.101:1234</string>
+    <string name="url">http://192.168.43.215:1234</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>

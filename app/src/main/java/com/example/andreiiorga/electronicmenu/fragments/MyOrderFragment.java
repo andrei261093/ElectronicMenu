@@ -20,6 +20,7 @@ import com.example.andreiiorga.electronicmenu.ApplicationController;
 import com.example.andreiiorga.electronicmenu.R;
 import com.example.andreiiorga.electronicmenu.StaticElements.StaticStrings;
 import com.example.andreiiorga.electronicmenu.activities.IntroActivity;
+import com.example.andreiiorga.electronicmenu.activities.MenuTabbed;
 import com.example.andreiiorga.electronicmenu.asyncTasks.AsynchronousHttpClient;
 import com.example.andreiiorga.electronicmenu.models.Product;
 import com.google.gson.Gson;
@@ -157,12 +158,12 @@ public class MyOrderFragment extends Fragment {
                                     myOrderListAdapter.notifyDataSetChanged();
                                     ApplicationController.instance.getMyOrderList().clear();
                                     updatePrice();
-                                    Intent intent = getActivity().getIntent();
+
+                                    Intent intent = new Intent(getActivity(), MenuTabbed.class);
                                     getActivity().finish();
                                     startActivity(intent);
 
-                                    Intent intentIntro = new Intent(getContext(), IntroActivity.class);
-                                    startActivity(intentIntro);
+
                                 }
                             })
                             .setNegativeButton("Anuleaza", new DialogInterface.OnClickListener() {
